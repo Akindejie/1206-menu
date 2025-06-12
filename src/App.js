@@ -1,51 +1,43 @@
 import React, { useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
-import Navigation from './components/Navigation';
-import BarcodeScanner from './components/BarcodeScanner';
-import SmokeEffect from './components/SmokeEffect';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AlcoholPage from './pages/AlcoholPage';
 import DrinksBeersPage from './pages/DrinksBeersPage';
+import BarcodeScanner from './components/BarcodeScanner';
+import Navigation from './components/Navigation';
+import Header from './components/Header';
+import SmokeEffect from './components/SmokeEffect';
 import './styles/App.css';
 import './styles/animations.css';
 import './styles/components.css';
 
 function App() {
-  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [scannerVisible, setScannerVisible] = useState(false);
 
-  const handleScannerOpen = () => {
-    setIsScannerOpen(true);
-  };
-
-  const handleScannerClose = () => {
-    setIsScannerOpen(false);
+  const toggleScanner = () => {
+    setScannerVisible(!scannerVisible);
   };
 
   return (
-    <div className="app">
-      <Router>
-        <div className="main-content">
+    <Router>
+      <div className="app">
+        <SmokeEffect />
+        <Header />
+
+        <main className="main-content">
           <Routes>
-            <Route path="/" element={<Navigate to="/alcohol" replace />} />
+            <Route path="/" element={<AlcoholPage />} />
             <Route path="/alcohol" element={<AlcoholPage />} />
             <Route path="/drinks-beers" element={<DrinksBeersPage />} />
           </Routes>
-        </div>
+        </main>
 
-        {/* Navigation */}
-        <Navigation onScannerOpen={handleScannerOpen} />
+        <Navigation onScannerToggle={toggleScanner} />
 
-        {/* Barcode Scanner */}
-        <BarcodeScanner isOpen={isScannerOpen} onClose={handleScannerClose} />
-
-        {/* Smoke Effect for touches/clicks */}
-        <SmokeEffect />
-      </Router>
-    </div>
+        {scannerVisible && (
+          <BarcodeScanner onClose={() => setScannerVisible(false)} />
+        )}
+      </div>
+    </Router>
   );
 }
 

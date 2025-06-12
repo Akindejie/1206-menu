@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import PriceItem from '../components/PriceItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { alcoholPrices } from '../data/priceList';
@@ -6,122 +6,105 @@ import '../styles/components.css';
 
 const AlcoholPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-  const [visibleItems, setVisibleItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Filter items based on search term
   const filteredItems = useMemo(() => {
-    return Object.entries(alcoholPrices).filter(([name]) =>
-      name.toLowerCase().includes(searchTerm.toLowerCase())
+    const items = Object.entries(alcoholPrices).map(([name, price]) => ({
+      name,
+      price,
+      category:
+        name.toLowerCase().includes('wine') ||
+        name.toLowerCase().includes('shisha')
+          ? 'Wine & Shisha'
+          : 'Alcohol',
+    }));
+
+    if (!searchTerm.trim()) return items;
+
+    const term = searchTerm.toLowerCase();
+    return items.filter(
+      (item) =>
+        item.name.toLowerCase().includes(term) ||
+        item.category.toLowerCase().includes(term)
     );
   }, [searchTerm]);
 
-  // Simulate loading and animate items in
-  useEffect(() => {
-    setIsLoading(true);
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
 
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      setVisibleItems(filteredItems);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [filteredItems]);
-
-  // Separate alcohol and wine sections
-  const alcoholItems = filteredItems.filter(([name]) => {
-    const lowerName = name.toLowerCase();
-    return !lowerName.includes('wine') && !lowerName.includes('shisha');
-  });
-
-  const wineItems = filteredItems.filter(([name]) => {
-    const lowerName = name.toLowerCase();
-    return lowerName.includes('wine') || lowerName.includes('shisha');
-  });
-
-  const renderSection = (items, title, startIndex = 0) => {
-    if (items.length === 0) return null;
-
-    return (
-      <div className="section">
-        <div className="section-header fade-in-up">{title}</div>
-        {items.map(([name, price], index) => (
-          <PriceItem
-            key={name}
-            name={name}
-            price={price}
-            delay={(startIndex + index) * 100}
-            isVisible={!isLoading}
-          />
-        ))}
-      </div>
-    );
+    // Simulate loading for better UX
+    if (value !== searchTerm) {
+      setIsLoading(true);
+      setTimeout(() => setIsLoading(false), 300);
+    }
   };
 
+  // Group items by category
+  const groupedItems = useMemo(() => {
+    const groups = {};
+    filteredItems.forEach((item) => {
+      if (!groups[item.category]) {
+        groups[item.category] = [];
+      }
+      groups[item.category].push(item);
+    });
+    return groups;
+  }, [filteredItems]);
+
   return (
-    <div className="page alcohol-page slide-in-right">
-      <div className="main-content">
-        {/* Page Header */}
-        <h1 className="page-title zoom-in">🍷 Alcohol & Wine</h1>
-
-        {/* Search Bar */}
-        <div className="search-container">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search alcohol or wine..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        {/* Loading State */}
-        {isLoading ? (
-          <div className="loading-container">
-            <LoadingSpinner text="Loading price list..." />
-
-            {/* Skeleton Loaders */}
-            <div className="skeleton-items">
-              {[...Array(8)].map((_, index) => (
-                <div key={index} className="skeleton-price-item">
-                  <div className="skeleton-loader skeleton-name"></div>
-                  <div className="skeleton-loader skeleton-price"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="price-list">
-            {/* Search Results Count */}
-            {searchTerm && (
-              <div className="search-results-count fade-in">
-                Found {filteredItems.length} item
-                {filteredItems.length !== 1 ? 's' : ''}
-              </div>
-            )}
-
-            {/* No Results */}
-            {filteredItems.length === 0 ? (
-              <div className="no-results fade-in">
-                <h3>No results found</h3>
-                <p>Try searching for something else</p>
-              </div>
-            ) : (
-              <>
-                {/* Alcohol Section */}
-                {renderSection(alcoholItems, '🥃 Alcohol', 0)}
-
-                {/* Wine Section */}
-                {renderSection(
-                  wineItems,
-                  '🍷 Wine & Shisha',
-                  alcoholItems.length
-                )}
-              </>
-            )}
-          </div>
-        )}
+    <div className="page">
+      {/* Search Bar */}
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search alcohol & wine..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
       </div>
+
+      {/* Search Results Count */}
+      {searchTerm && (
+        <div className="search-results-count">
+          {filteredItems.length} item{filteredItems.length !== 1 ? 's' : ''}{' '}
+          found
+        </div>
+      )}
+
+      {/* Loading State */}
+      {isLoading ? (
+        <div className="loading-container">
+          <LoadingSpinner size="medium" />
+          <p className="loading-text">Searching...</p>
+        </div>
+      ) : (
+        <div className="price-list">
+          {Object.keys(groupedItems).length === 0 ? (
+            <div className="no-results">
+              <h3>No items found</h3>
+              <p>Try searching with different keywords</p>
+            </div>
+          ) : (
+            Object.entries(groupedItems).map(([category, items]) => (
+              <div key={category}>
+                <div className="section-header">{category}</div>
+                {items.map((item, index) => (
+                  <PriceItem
+                    key={`${category}-${item.name}-${index}`}
+                    name={item.name}
+                    price={item.price}
+                    delay={index * 100}
+                  />
+                ))}
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };

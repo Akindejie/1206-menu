@@ -1,3 +1,143 @@
+/* App Header Styles */
+.app-header {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(26, 26, 26, 0.9) 100%
+  );
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+  padding: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: fadeInDown 1s ease-out;
+}
+
+.app-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+  transition: all 0.3s ease;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+.app-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+}
+
+.brand-text {
+  text-align: left;
+}
+
+.brand-title {
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 800;
+  background: linear-gradient(45deg, #ffd700, #ffa500, #ffd700);
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  line-height: 1.2;
+  animation: shimmerText 3s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+.brand-subtitle {
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  color: rgba(255, 215, 0, 0.8);
+  margin: 4px 0 0 0;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.header-tagline {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  padding: 8px 16px;
+  animation: pulse 2s infinite;
+}
+
+.tagline-text {
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.header-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  opacity: 0.7;
+}
+
+.decoration-line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ffd700, transparent);
+}
+
+.decoration-dot {
+  width: 4px;
+  height: 4px;
+  background: #ffd700;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Logo animations */
+@keyframes shimmerText {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Mini logo for pages */
+.page-mini-logo {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.4));
+  animation: glow 4s ease-in-out infinite alternate;
+}
+
+.page-title-with-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
 /* Navigation Styles */
 .bottom-navigation {
   position: fixed;
@@ -513,6 +653,24 @@
     transform-origin: center center;
   }
 
+  /* Header responsive adjustments */
+  .app-header {
+    padding: 16px;
+  }
+
+  .logo-container {
+    gap: 12px;
+  }
+
+  .app-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .header-content {
+    gap: 12px;
+  }
+
   /* Reduce motion on smaller devices if performance is poor */
   @media (max-width: 480px) and (pointer: coarse) {
     .smoke-particle {
@@ -530,6 +688,14 @@
 
   .touch-spark {
     background: rgba(255, 215, 0, 0.8);
+  }
+
+  .app-header {
+    padding: 12px;
+  }
+
+  .decoration-line {
+    width: 30px;
   }
 }
 
@@ -573,5 +739,18 @@
   .scanner-fab {
     bottom: 100px;
     right: 32px;
+  }
+
+  .app-header {
+    padding: 24px;
+  }
+
+  .app-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logo-container {
+    gap: 20px;
   }
 }
