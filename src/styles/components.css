@@ -483,6 +483,56 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* Smoke Effect Styles */
+.smoke-effect-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+/* Enhanced mobile touch feedback */
+@media (max-width: 768px) {
+  /* Improve touch response on mobile */
+  .app {
+    touch-action: manipulation;
+  }
+
+  /* Optimize smoke particles for mobile performance */
+  .smoke-particle {
+    will-change: transform, opacity;
+    transform-origin: center center;
+  }
+
+  .touch-spark {
+    will-change: transform, opacity;
+    transform-origin: center center;
+  }
+
+  /* Reduce motion on smaller devices if performance is poor */
+  @media (max-width: 480px) and (pointer: coarse) {
+    .smoke-particle {
+      filter: blur(0.5px); /* Reduce blur for better performance */
+    }
+  }
+}
+
+/* High performance mode for older devices */
+@media (max-width: 480px) {
+  .smoke-particle {
+    background: rgba(255, 215, 0, 0.6);
+    filter: none; /* Remove blur on very small screens */
+  }
+
+  .touch-spark {
+    background: rgba(255, 215, 0, 0.8);
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 480px) {
   .price-item {
