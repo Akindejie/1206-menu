@@ -1,70 +1,124 @@
-# Getting Started with Create React App
+# 1206 Empire Barcode Scanner App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, mobile-first React application for 1206 Empire lounge featuring barcode scanning functionality and smooth animations.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- 📱 **Mobile-First Design** - Optimized for mobile devices with responsive layout
+- 📸 **Barcode Scanner** - Real-time barcode scanning using device camera
+- 🍷 **Price Lists** - Complete alcohol, wine, drinks, and beer catalog
+- 🎨 **Heavy Animations** - Smooth page transitions and interactive elements
+- 🔍 **Search Functionality** - Quick search across all products
+- 🌙 **Dark Theme** - Modern dark UI with gold accents
+- ⚡ **Performance Optimized** - Fast loading with skeleton loaders
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React 18** - Modern React with hooks
+- **React Router** - Client-side routing
+- **@zxing/library** - Barcode scanning functionality
+- **CSS3** - Custom animations and responsive design
+- **Web APIs** - Camera access and audio feedback
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+```
+src/
+├── components/
+│   ├── BarcodeScanner.jsx    # Full-screen barcode scanner
+│   ├── Navigation.jsx        # Bottom navigation with floating scanner button
+│   ├── PriceItem.jsx        # Individual price list item with animations
+│   └── LoadingSpinner.jsx   # Loading states and skeleton loaders
+├── pages/
+│   ├── AlcoholPage.jsx      # Alcohol and wine price list
+│   └── DrinksBeersPage.jsx  # Drinks and beers price list
+├── data/
+│   └── priceList.js         # Complete product catalog with prices
+├── styles/
+│   ├── App.css              # Global styles and theme
+│   ├── animations.css       # Animation keyframes and utility classes
+│   └── components.css       # Component-specific styles
+└── App.js                   # Main app with routing
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Getting Started
 
-### `npm run build`
+1. **Install Dependencies**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Start Development Server**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```bash
+   npm start
+   ```
 
-### `npm run eject`
+3. **Build for Production**
+   ```bash
+   npm run build
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Features Overview
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Barcode Scanner
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Uses device's back camera when available
+- Supports multiple barcode formats (EAN, UPC, Code128)
+- Real-time scanning with visual feedback
+- Audio beep on successful scan
+- Automatic product lookup in catalog
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Price Lists
 
-## Learn More
+- **Alcohol & Wine Page**: Premium spirits, cocktails, and wine
+- **Drinks & Beers Page**: Soft drinks, energy drinks, and beers
+- Organized sections with clear pricing
+- Search functionality across all products
+- Staggered loading animations
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Navigation
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Bottom navigation for easy thumb access
+- Floating action button for quick scanner access
+- Smooth page transitions
+- Active state indicators
 
-### Code Splitting
+### Animations
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Page slide transitions
+- Staggered item loading
+- Pulsing scanner elements
+- Bounce effects for scan results
+- Smooth hover and touch interactions
 
-### Analyzing the Bundle Size
+## Browser Compatibility
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Modern browsers with camera API support
+- iOS Safari 11+
+- Android Chrome 67+
+- Desktop browsers for development
 
-### Making a Progressive Web App
+## Performance Features
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- React.memo for optimized re-renders
+- Lazy loading for camera component
+- Debounced search functionality
+- 60fps smooth animations
+- Optimized asset loading
 
-### Advanced Configuration
+## Responsive Design
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **Mobile First**: Designed for 320px+ screens
+- **Tablet**: Enhanced layout for 768px+ screens
+- **Desktop**: Optimized viewing for 1024px+ screens
+- Touch-friendly interactive elements (44px minimum)
+- Accessible color contrast and focus states
 
-### Deployment
+## Development Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Camera permissions required for scanner functionality
+- HTTPS required for camera access in production
+- Fallback UI for devices without camera support
+- Comprehensive error handling for all features
